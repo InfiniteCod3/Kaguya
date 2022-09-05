@@ -11,6 +11,7 @@ import {
   useInteract,
 } from "netplayer";
 import { isDesktop } from "react-device-detect";
+import { useGlobalPlayer } from "@/contexts/GlobalPlayerContext";
 
 const textStyles = {
   none: "",
@@ -51,6 +52,7 @@ const Subtitle = () => {
   const { state } = useVideoState();
   const { state: subtitleSettings } = useSubtitleSettings();
   const { moderateScale } = useTextScaling();
+  const { isBackground } = useGlobalPlayer();
   const { videoEl } = useVideo();
   const { isInteracting } = useInteract();
   const [currentText, setCurrentText] = useState<string>("");
@@ -109,8 +111,8 @@ const Subtitle = () => {
   return (
     <div
       className={classNames(
-        "absolute left-1/2 -translate-x-1/2 w-[80%] flex items-center justify-evenly transition-all duration-300",
-        isInteracting && isDesktop ? "bottom-24" : "bottom-4"
+        "netplayer-subtitle absolute left-1/2 -translate-x-1/2 w-[80%] flex items-center justify-evenly transition-all duration-300",
+        isInteracting && isDesktop && !isBackground ? "bottom-24" : "bottom-4"
       )}
     >
       <p
